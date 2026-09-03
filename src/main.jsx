@@ -3,9 +3,10 @@ import { createRoot } from 'react-dom/client'
 import { Check, ChevronLeft, ChevronRight, Circle, ClipboardList, Edit3, LogOut, Plus, Settings2, Sparkles, Trash2 } from 'lucide-react'
 import './styles.css'
 
+const API_URL = import.meta.env.VITE_API_URL || ''
 const api = async (path, options = {}) => {
   const token = localStorage.getItem('focusflow-token')
-  const response = await fetch(path, { ...options, headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}), ...options.headers } })
+  const response = await fetch(`${API_URL}${path}`, { ...options, headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}), ...options.headers } })
   if (!response.ok) throw new Error((await response.json()).error || 'Something went wrong')
   return response.status === 204 ? null : response.json()
 }

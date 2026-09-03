@@ -28,6 +28,10 @@ Open `http://localhost:5173`. The frontend proxies `/api` requests to Flask on p
 
 For PostgreSQL, set `DATABASE_URL=postgresql+psycopg://user:password@host:5432/focusflow` and a strong `JWT_SECRET_KEY` before starting the API. The API includes signup, login, current-user, project CRUD, task CRUD, ownership enforcement, filtering, and pagination at `/api/tasks?page=1&per_page=8`.
 
+## Deploy with Render
+
+The included `render.yaml` provisions a PostgreSQL database, Flask API, and React static site. In Render, create a new Blueprint from this repository and deploy the generated services. The frontend automatically receives the API service host through `VITE_API_URL`.
+
 ## Test
 
 ```bash

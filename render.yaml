@@ -1,0 +1,31 @@
+databases:
+  - name: focusflow-db
+    databaseName: focusflow
+    user: focusflow
+
+services:
+  - type: web
+    name: focusflow-api
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: focusflow-db
+          property: connectionString
+      - key: JWT_SECRET_KEY
+        generateValue: true
+
+  - type: web
+    name: focusflow-web
+    runtime: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: focusflow-api
+          property: host

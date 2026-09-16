@@ -32,6 +32,8 @@ For PostgreSQL, set `DATABASE_URL=postgresql+psycopg://user:password@host:5432/f
 
 The included `render.yaml` provisions a PostgreSQL database, Flask API, and React static site. In Render, create a new Blueprint from this repository and deploy the generated services. The frontend automatically receives the API service host through `VITE_API_URL`.
 
+Task lists support server-side filtering while preserving pagination: use `/api/tasks?search=brief&status=open&page=1&per_page=8`. Supported status values are `all`, `open`, and `completed`.
+
 ## Test
 
 ```bash

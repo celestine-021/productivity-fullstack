@@ -140,6 +140,14 @@ def create_app(test_config=None):
         project_id = request.args.get("project_id", type=int)
         if project_id:
             query = query.filter(Task.project_id == project_id)
+        search = request.args.get("search", "").strip()
+        status = request.args.get("status", "all")
+        if search:
+            query = query.filter(Task.title.ilike(f"%{search}%"))
+        if status == "open":
+            query = query.filter(Task.completed.is_(False))
+        elif status == "completed":
+            query = query.filter(Task.completed.is_(True))
         pagination = query.order_by(Task.completed.asc(), Task.id.desc()).paginate(page=page, per_page=per_page, error_out=False)
         return jsonify(tasks=[serialize_task(task) for task in pagination.items], page=page, per_page=per_page, pages=pagination.pages, total=pagination.total)
 
